@@ -9,21 +9,21 @@ export 'ff_navigation_bar_theme.dart';
 export 'ff_navigation_bar_item.dart';
 
 class FFNavigationBar extends StatefulWidget {
-  final Function onSelectTab;
-  final List<FFNavigationBarItem> items;
-  final FFNavigationBarTheme theme;
+  final Function? onSelectTab;
+  final List<FFNavigationBarItem>? items;
+  final FFNavigationBarTheme? theme;
 
   final int selectedIndex;
 
   FFNavigationBar({
-    Key key,
+    Key? key,
     this.selectedIndex = 0,
     @required this.onSelectTab,
     @required this.items,
     @required this.theme,
   }) {
     assert(items != null);
-    assert(items.length >= 2 && items.length <= 5);
+    assert(items!.length >= 2 && items!.length <= 5);
     assert(onSelectTab != null);
   }
 
@@ -33,18 +33,18 @@ class FFNavigationBar extends StatefulWidget {
 }
 
 class _FFNavigationBarState extends State<FFNavigationBar> {
-  int selectedIndex;
+  int? selectedIndex;
   _FFNavigationBarState({this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
-    final FFNavigationBarTheme theme = widget.theme;
+    final FFNavigationBarTheme? theme = widget.theme;
     final bgColor =
-        theme.barBackgroundColor ?? Theme.of(context).bottomAppBarColor;
+        theme?.barBackgroundColor ?? Theme.of(context).bottomAppBarColor;
 
     return MultiProvider(
       providers: [
-        Provider<FFNavigationBarTheme>.value(value: theme),
+        Provider<FFNavigationBarTheme>.value(value: theme!),
         Provider<int>.value(value: widget.selectedIndex),
       ],
       child: Container(
@@ -64,14 +64,14 @@ class _FFNavigationBarState extends State<FFNavigationBar> {
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.items.map((item) {
-                var index = widget.items.indexOf(item);
+              children: widget.items!.map((item) {
+                var index = widget.items!.indexOf(item);
                 item.setIndex(index);
 
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      widget.onSelectTab(index);
+                      widget.onSelectTab!(index);
                       selectedIndex = index;
                     });
                   },
@@ -79,7 +79,7 @@ class _FFNavigationBarState extends State<FFNavigationBar> {
                     color: Colors.transparent,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width /
-                          widget.items.length,
+                          widget.items!.length,
                       height: theme.barHeight,
                       child: item,
                     ),
